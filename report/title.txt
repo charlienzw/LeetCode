@@ -1,4 +1,4 @@
-Two Sum    
+﻿Two Sum    
 Add Two Numbers    
 Longest Substring Without Repeating Characters    
 Median of Two Sorted Arrays
@@ -474,7 +474,8 @@ Matchsticks to Square    
 Ones and Zeroes    
 Heaters    
 Number Complement    
-Total Hamming Distance    
+Total Hamming Distance
+NAN    
 Largest Palindrome Product    
 Sliding Window Median    
 Magical String    
@@ -492,7 +493,8 @@ Construct the Rectangle    
 Reverse Pairs    
 Target Sum    
 Teemo Attacking    
-Next Greater Element I    
+Next Greater Element I
+NAN    
 Diagonal Traverse    
 The Maze III    
 Keyboard Row    
@@ -503,13 +505,18 @@ Base 7    
 The Maze II    
 Relative Ranks    
 Perfect Number    
-Most Frequent Subtree Sum    
+Most Frequent Subtree Sum
+NAN    
+NAN    
+NAN    
+NAN        
 Find Bottom Left Tree Value    
 Freedom Trail    
 Find Largest Value in Each Tree Row    
 Longest Palindromic Subsequence    
 Super Washing Machines    
 Coin Change 2    
+NAN    
 Detect Capital    
 Longest Uncommon Subsequence I     
 Longest Uncommon Subsequence II    
@@ -518,11 +525,13 @@ Longest Word in Dictionary through Deleting    
 Contiguous Array    
 Beautiful Arrangement    
 Word Abbreviation    
+NAN    
 Minesweeper    
 Minimum Absolute Difference in BST    
 Lonely Pixel I    
 K-diff Pairs in an Array    
-Lonely Pixel II    
+Lonely Pixel II   
+NAN     
 Encode and Decode TinyURL    
 Construct Binary Tree from String    
 Complex Number Multiplication    
@@ -537,7 +546,8 @@ Boundary of Binary Tree    
 Remove Boxes    
 Friend Circles    
 Split Array with Equal Sum    
-Binary Tree Longest Consecutive Sequence II    
+Binary Tree Longest Consecutive Sequence II
+NAN        
 Student Attendance Record I    
 Student Attendance Record II    
 Optimal Division    
@@ -863,3 +873,11 @@ Leaf-Similar Trees    
 Length of Longest Fibonacci Subsequence    
 Walking Robot Simulation    
 Koko Eating Bananas    
+Middle of the Linked List    
+Stone Game    
+Nth Magical Number       	
+Profitable Schemes    
+Random Pick with Weight        
+Random Flip Matrix    
+Random Point in Non-overlapping Rectangles    
+Generate Random Point in a Circle    

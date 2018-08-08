@@ -21,11 +21,18 @@ int main()
             S[i][j]='\0';
     }
     int n;
+    cout<<"¡¾Ë¢Ìâ»ã±¨¡¿"<<endl;
+    vector<int> index;
     while(scanf("%d",&n)!=EOF)
     {
-        cout<<n<<". "<<S[n-1]<<endl;
+        index.push_back(n);
     }
+    cout<<index.size()<<"Ìâ"<<endl;
+    for(int i=0;i<index.size();i++)
+        cout<<index[i]<<". "<<S[index[i]-1]<<endl;
+    cout<<"https://github.com/charlienzw/LeetCode"<<endl;
     fclose(stdin);
     fclose(stdout);
+    system("pause");
     return 0;
 }
