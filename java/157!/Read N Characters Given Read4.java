@@ -19,7 +19,7 @@ public class Solution extends Reader4 {
                 buf[index]=temp[i];
                 index++;
             }
-            if(index==n||count<4) return index;
+            if(count<4) return index;
         }
     }
 }
