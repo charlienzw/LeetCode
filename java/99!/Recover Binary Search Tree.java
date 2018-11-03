@@ -1,3 +1,7 @@
+//Time:O(n)
+//Space:O(1)
+
+
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -8,48 +12,55 @@
  * }
  */
 class Solution {
-    TreeNode x;
-    boolean xenable;
-    TreeNode node1,node2,node3;
+    TreeNode node1;
+    TreeNode node2;
+    TreeNode node3;
+    TreeNode prenode;
     public void recoverTree(TreeNode root) {
-        x=null;
-        node1=null;
-        node2=null;
-        node3=null;
-        xenable=false;
+        node1 = null;
+        node2 = null;
+        node3 = null;
+        prenode = null;
         helper(root);
-        if(node3==null)
+        int temp;
+        if(node3 == null)
         {
-            int tmp=node1.val;
-            node1.val=node2.val;
-            node2.val=tmp;
+            temp = node1.val;
+            node1.val = node2.val;
+            node2.val = temp;
         }
         else
         {
-            int tmp=node1.val;
-            node1.val=node3.val;
-            node3.val=tmp;
+            temp = node1.val;
+            node1.val = node3.val;
+            node3.val = temp;
         }
     }
     public void helper(TreeNode root)
     {
-        if(root!=null)
+        if(root != null)
         {
             helper(root.left);
-            if(xenable&&x.val>=root.val)
+            if(prenode != null)
             {
-                if(node1==null) 
+                if(prenode.val >= root.val)
                 {
-                    node1=x;
-                    node2=root;
+                    if(node1 != null)
+                    {
+                        node3 = root;
+                    }
+                    else
+                    {
+                        node1 = prenode;
+                        node2 = root;
+                    }
                 }
-                else node3=root;
+                prenode = root;
             }
             else
             {
-                xenable=true;
+                prenode = root;
             }
-            x=root;
             helper(root.right);
         }
     }
