@@ -1,50 +1,79 @@
+// dfs is so direct
+// Time: O(n) Space: O(n) n is the number of ‘1’
 class Solution {
-    char[][] c;
+    int[][] dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+    char[][] gridcopy;
     public int numIslands(char[][] grid) {
-        if(grid.length==0||grid[0].length==0) return 0;
-        c=new char[grid.length][grid[0].length];
-        int res=0;
-        for(int i=0;i<c.length;i++)
+        if(grid.length == 0 || grid[0].length == 0)
+            return 0;
+        int res = 0;
+        gridcopy = grid;
+        for(int i = 0; i < grid.length; i++)
         {
-            for(int j=0;j<c[0].length;j++)
+            for(int j = 0; j < grid[0].length; j++)
             {
-                c[i][j]=grid[i][j];
-            }
-        }
-        for(int i=0;i<c.length;i++)
-        {
-            for(int j=0;j<c[0].length;j++)
-            {
-                if(c[i][j]=='1')
+                if(grid[i][j] == '1')
                 {
-                    helper(i,j);
+                    dfs(i, j);
                     res++;
                 }
             }
         }
         return res;
     }
-    public void helper(int i,int j)
+    public void dfs(int i, int j)
     {
-        if(i>0&&c[i-1][j]=='1')
+        if(i < 0 || i >= gridcopy.length || j < 0 || j >= gridcopy[0].length || gridcopy[i][j] == '0') return;
+        gridcopy[i][j] = '0';
+        for(int d = 0; d < 4; d++)
         {
-            c[i-1][j]='0';
-            helper(i-1,j);
+            dfs(i + dir[d][0], j + dir[d][1]);
         }
-        if(i<c.length-1&&c[i+1][j]=='1')
+        
+    }
+}
+
+
+follow up
+// Different figure island
+// Use hashset to eliminate distinct
+// The left-up position is first to be visited. So we can set the left-up position to the center for every island
+// test cases: [["1","1","0","0","0"],["1","1","0","0","0"],["0","0","0","1","1"],["0","0","0","1","1"]] 1
+[["0","1","1","0","0"],["1","1","0","0","0"],["0","0","0","1","1"],["0","0","1","1","0"]] 1
+// Time: O(n) Space: O(n) n is the number of ‘1’
+class Solution {
+    int[][] dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+    char[][] gridcopy;
+    Set<List<Integer>> set = new HashSet<>();
+    List<Integer> dirlist;
+    public int numIslands(char[][] grid) {
+        if(grid.length == 0 || grid[0].length == 0)
+            return 0;
+        int res = 0;
+        gridcopy = grid;
+        for(int i = 0; i < grid.length; i++)
         {
-            c[i+1][j]='0';
-            helper(i+1,j);
+            for(int j = 0; j < grid[0].length; j++)
+            {
+                if(grid[i][j] == '1')
+                {
+			  dirlist = new ArrayList<>();
+                    dfs(i, j, -1);
+			  set.add(dirlist);
+                }
+            }
         }
-        if(j>0&&c[i][j-1]=='1')
+        return set.size();
+    }
+    public void dfs(int i, int j, int dirnow)
+    {
+        if(i < 0 || i >= gridcopy.length || j < 0 || j >= gridcopy[0].length || gridcopy[i][j] == '0') return;
+	  dirlist.add(dirnow);
+        gridcopy[i][j] = '0';
+        for(int d = 0; d < 4; d++)
         {
-            c[i][j-1]='0';
-            helper(i,j-1);
+            dfs(i + dir[d][0], j + dir[d][1], d);
         }
-        if(j<c[0].length-1&&c[i][j+1]=='1')
-        {
-            c[i][j+1]='0';
-            helper(i,j+1);
-        }        
+        
     }
 }
