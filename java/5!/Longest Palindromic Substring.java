@@ -1,4 +1,5 @@
 //Expand Around Center 
+//Time: O(n^2) Space: O(1)
 class Solution {
     String res="";
     public String longestPalindrome(String s) {
@@ -23,6 +24,7 @@ class Solution {
 }
 
 //dp
+//Time: O(n^2) Space: O(n^2)
 class Solution {
     public String longestPalindrome(String s) {
         if(s==null||s.length()==0) return "";
