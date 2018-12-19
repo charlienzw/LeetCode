@@ -74,50 +74,51 @@ class Solution {
  *     TreeNode(int x) { val = x; }
  * }
  */
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
 class Solution {
+    class NodeContainer{
+        TreeNode node;
+        boolean visited;
+        NodeContainer(TreeNode n, boolean flag)
+        {
+            node = n;
+            visited = flag;
+        }
+    }
     public List<Integer> postorderTraversal(TreeNode root) {
         List<Integer> res = new ArrayList<>();
-        Deque<TreeNode> s = new ArrayDeque<>();
-        if(root == null) return res;
-        s.push(root);
-        TreeNode prev = null, cur;
-        while(s.size() > 0)
+        Deque<NodeContainer> s = new ArrayDeque<>();
+        while(s.size() > 0 || root != null)
         {
-            cur = s.peek();
-            if(prev == null || prev.left == cur || prev.right == cur)
+            if(root != null)
             {
-                if(cur.left != null)
+                s.push(new NodeContainer(root, false));
+                root = root.left;   
+            }
+            else
+            {
+                NodeContainer nc = s.pop();
+                root = nc.node;
+                if(!nc.visited)
                 {
-                    s.push(cur.left);
-                }
-                else if(cur.right != null)
-                {
-                    s.push(cur.right);
+                    nc.visited = true;
+                    s.push(nc);
+                    root = root.right;
                 }
                 else
                 {
-                    s.pop();
-                    res.add(cur.val);
+                    res.add(root.val);
+                    root = null;
                 }
             }
-            else if(cur.left == prev)
-            {
-                if(cur.right != null)
-                {
-                    s.push(cur.right);
-                }
-                else
-                {
-                    s.pop();
-                    res.add(cur.val);
-                }
-            }
-            else if(cur.right == prev)
-            {
-                s.pop();
-                res.add(cur.val);
-            }
-            prev = cur;
         }
         return res;
     }
