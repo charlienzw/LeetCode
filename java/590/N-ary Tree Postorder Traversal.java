@@ -52,26 +52,21 @@ class Node {
 */
 class Solution {
     public List<Integer> postorder(Node root) {
-        List<Integer> res = new ArrayList<Integer>();
-        Deque<Node> s1 = new ArrayDeque<>();
-        Deque<Integer> s2 = new ArrayDeque<>();
+        LinkedList<Integer> res = new LinkedList<Integer>();
+        Deque<Node> s = new ArrayDeque<>();
         if(root == null) return res;
-        s1.push(root);
-        while(s1.size() > 0)
+        s.push(root);
+        while(s.size() > 0)
         {
-            root = s1.pop();
-            s2.push(root.val);
+            root = s.pop();
+            res.addFirst(root.val);
             if(root.children != null)
             {
                 for(int i = 0; i < root.children.size(); i++)
                 {
-                    s1.push(root.children.get(i));
+                    s.push(root.children.get(i));
                 }
             }
-        }
-        while(s2.size() > 0)
-        {
-            res.add(s2.pop());
         }
         return res;     
     }

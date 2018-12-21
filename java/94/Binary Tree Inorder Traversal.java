@@ -23,8 +23,7 @@ class Solution {
             res.add(root.val);
             helper(root.right, res);
         }
-    }
-    
+    } 
 }
 
 //Iterative with one stack

@@ -11,31 +11,25 @@ class Solution {
     public List<List<Integer>> levelOrder(TreeNode root) {
         List<List<Integer>> res=new ArrayList<>();
         List<Integer> resi;
-        Queue<TreeNode> q=new LinkedList<TreeNode>();
+        Queue<TreeNode> q = new LinkedList<TreeNode>();
         q.offer(root);
         TreeNode tmp;
         int qs;
-        int flag=0;
         while(true)
         {
-            qs=q.size();
-            flag=0;
-            resi=new ArrayList<>();
-            for(int i=0;i<qs;i++)
+            qs = q.size();
+            resi = new ArrayList<>();
+            for(int i = 0; i < qs; i++)
             {
-                tmp=q.poll();
-                if(tmp!=null)
+                tmp = q.poll();
+                if(tmp != null)
                 {
-                    flag=1;
                     resi.add(tmp.val);
                     q.offer(tmp.left);
                     q.offer(tmp.right);
                 }
             }
-            if(flag==0)
-            {
-                break;
-            }
+            if(q.size() == 0) break;
             res.add(resi);
         }
         return res;

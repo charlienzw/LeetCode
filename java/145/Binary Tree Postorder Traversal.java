@@ -26,8 +26,7 @@ class Solution {
     }
 }
 
-//Iterative with two stacks
-//Reverse the result of preorder traversal beginning from right
+//Iterative with one stack and reverse it
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -39,41 +38,27 @@ class Solution {
  */
 class Solution {
     public List<Integer> postorderTraversal(TreeNode root) {
-        List<Integer> res=new ArrayList<Integer>();
-        Stack<TreeNode> s1=new Stack<>();
-        Stack<Integer> s2=new Stack<>();
-        while(s1.size()>0||root!=null)
+        LinkedList<Integer> res = new LinkedList<Integer>();
+        Stack<TreeNode> s = new Stack<>();
+        while(s.size() > 0 || root != null)
         {
-            if(root==null)
+            if(root == null)
             {
-                root=s1.pop();
-                root=root.left;
+                root = s.pop();
+                root = root.left;
             }
             else
             {
-                s2.push(root.val);
-                s1.push(root);
-                root=root.right;
+                res.addFirst(root.val);
+                s.push(root);
+                root = root.right;
             }
-        }
-        while(s2.size()>0)
-        {
-            res.add(s2.pop());
         }
         return res;
     }
 }
 
 //Iterative with one stack
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode(int x) { val = x; }
- * }
- */
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -116,7 +101,7 @@ class Solution {
                 else
                 {
                     res.add(root.val);
-                    root = null;
+                    root = null;// Set root to null in order to pop the stack in the next step
                 }
             }
         }
