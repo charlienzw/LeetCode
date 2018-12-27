@@ -1,5 +1,5 @@
 /**
- * Definition for binary tree
+ * Definition for a binary tree node.
  * public class TreeNode {
  *     int val;
  *     TreeNode left;
@@ -7,58 +7,46 @@
  *     TreeNode(int x) { val = x; }
  * }
  */
-
-public class BSTIterator {
-    TreeNode p;
-    Stack<TreeNode> s=new Stack<>();
-    boolean end=false;
+class BSTIterator {
+    Deque<TreeNode> s;
+    TreeNode cur;
     public BSTIterator(TreeNode root) {
-        if(root==null)
+        s = new ArrayDeque<>();
+        cur = root;
+        while(cur != null)
         {
-            p=null;
-            return;
+            s.push(cur);
+            cur = cur.left;
         }
-        p=root;
-        while(p.left!=null)
-        {
-            s.add(p);
-            p=p.left;
-        }
-    }
 
-    /** @return whether we have a next smallest number */
-    public boolean hasNext() {
-        if(p==null) return false;
-        return !end;
     }
-
+    
     /** @return the next smallest number */
     public int next() {
-        int res=p.val;
-        if(p.right!=null)
+        int res = 0;
+        if(cur == null)
         {
-            p=p.right;
-            while(p.left!=null)
+            cur = s.pop();
+            res = cur.val;
+            cur = cur.right;
+            while(cur != null)
             {
-                s.add(p);
-                p=p.left;
+                s.push(cur);
+                cur = cur.left;
             }
-        }
-        else
-        {
-            if(s.size()==0) 
-            {
-                end=true;
-                return res;
-            }
-            p=s.pop();
         }
         return res;
+    }
+    
+    /** @return whether we have a next smallest number */
+    public boolean hasNext() {
+        return s.size() > 0;
     }
 }
 
 /**
- * Your BSTIterator will be called like this:
- * BSTIterator i = new BSTIterator(root);
- * while (i.hasNext()) v[f()] = i.next();
+ * Your BSTIterator object will be instantiated and called as such:
+ * BSTIterator obj = new BSTIterator(root);
+ * int param_1 = obj.next();
+ * boolean param_2 = obj.hasNext();
  */

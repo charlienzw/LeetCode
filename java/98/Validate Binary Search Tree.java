@@ -8,20 +8,26 @@
  * }
  */
 class Solution {
+    boolean prune = false; // Prune to make more efficient
     public boolean isValidBST(TreeNode root) {
-        if (root==null) return true;
-        if(root.left!=null&&root.left.val>=root.val||root.right!=null&&root.right.val<=root.val) return false;
-        else return helper(root,Integer.MIN_VALUE,Integer.MAX_VALUE);
+        return helper(root, "#", "#"); // Prevent corner case: if there is a node whose value is MAX_VALUE then return false but should return true
     }
-    public boolean helper(TreeNode root,int start,int end)
-    {
-        if(root.left!=null&&(root.left.val>end||root.left.val<start||root.left.val>=root.val)||root.right!=null&&(root.right.val>end||root.right.val<start||root.right.val<=root.val))
+    public boolean helper(TreeNode root, String low, String high) {
+        if(prune) return false;
+        if(root != null)
         {
-            return false;
+            if(root.left != null && (root.val <= root.left.val || !high.equals("#") && Integer.valueOf(high) <= root.left.val || !low.equals("#") && Integer.valueOf(low) >= root.left.val))
+            {
+                prune = true;
+                return false;
+            }
+            if(root.right != null && (root.val >= root.right.val || !high.equals("#") && Integer.valueOf(high) <= root.right.val || !low.equals("#") && Integer.valueOf(low) >= root.right.val))
+            {
+                prune = true;
+                return false;
+            }
+            return helper(root.left, low, root.val + "") && helper(root.right, root.val + "", high);
         }
-        else
-        {
-            return (root.left==null?true:helper(root.left,start,root.val-1))&&(root.right==null?true:helper(root.right,root.val+1,end));
-        }
+        else return true;
     }
 }
