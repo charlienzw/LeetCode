@@ -1,22 +1,21 @@
-//Time:O(logn)
-//Space:O(1)
-class Solution {
+ class Solution {
     public int findMin(int[] nums) {
         int low = 0, high = nums.length - 1;
         while(low < high)
         {
             int mid = low + (high - low) / 2;
-            if(nums[low] <= nums[high])
+            if(nums[mid] > nums[high])
             {
-                return nums[low];
+                low = mid + 1;
             }
-            if(nums[high] > nums[mid])
+            else if(nums[low] > nums[mid])
             {
                 high = mid;
+                low++;
             }
             else
             {
-                low = mid + 1;
+                high--;
             }
         }
         return nums[low];
