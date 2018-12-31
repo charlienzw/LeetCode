@@ -1,22 +1,33 @@
+/*
+[1,-1,5,-2,3]
+3
+pre: 0, 1, 0, 5, 3, 6
+map: {3, 0}, {4, 1}, {3, 2}, {8, 3}, 
+
+[1, 1, 0]
+1
+pre: 0, 1, 2, 2
+map: {1, 0}, {2, 1}, {3, 2}, {3, 3}
+
+*/
 class Solution {
     public int maxSubArrayLen(int[] nums, int k) {
-        if(nums.length==0) return 0;
-        int res=0;
-        int[] s=new int[nums.length];
-        HashMap<Integer,Integer> map=new HashMap<>();
-        for(int i=0;i<nums.length;i++)
+        if(nums.length == 0) return 0;
+        int[] pre = new int[nums.length + 1];
+        for(int i = 0; i < nums.length; i++)
         {
-            s[i]=i==0?nums[i]:s[i-1]+nums[i];
-            if(s[i]==k) res=Math.max(res,i+1);
-            map.put(s[i],i);
+            pre[i + 1] = nums[i] + pre[i];
         }
-        for(int i=0;i<s.length;i++)
+        int res = Integer.MIN_VALUE;
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int i = 0; i < pre.length; i++)
         {
-            if(map.containsKey(s[i]+k))
+            if(!map.containsKey(pre[i] + k)) map.put(pre[i] + k, i);
+            if(map.containsKey(pre[i]))
             {
-                res=Math.max(res,map.get(s[i]+k)-i);
+                res = Math.max(res, i - map.get(pre[i]));
             }
         }
-        return res;   
+        return res == Integer.MIN_VALUE ? 0 : res;
     }
 }
