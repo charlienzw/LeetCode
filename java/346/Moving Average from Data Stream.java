@@ -17,7 +17,7 @@ class MovingAverage {
             int x = q.poll();
             sum -= x;
         }
-        return (double)sum/q.size();
+        return (double)sum / q.size();
     }
 }
 

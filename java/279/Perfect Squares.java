@@ -1,3 +1,44 @@
+// BFS
+class Solution {
+    public int numSquares(int n) {
+        Queue<Integer> q = new LinkedList<>();
+        Set<Integer> set = new HashSet<>();
+        if(isSquare(n)) return 1;
+        int step = 1;
+        q.add(n);
+        set.add(n);
+        int temp, tempnew;
+        while(q.size() > 0)
+        {
+            int qsize = q.size();
+            step++;
+            for(int j = 0; j < qsize; j++)
+            {
+                temp = q.poll();
+                for(int i = (int)Math.sqrt(temp); i >= 1; i--)
+                {
+                    tempnew = temp - i * i;
+                    if(isSquare(tempnew))
+                    {
+                        return step;
+                    }
+                    if(!set.contains(tempnew) && tempnew > 0)
+                    {
+                        q.add(tempnew);
+                        set.add(tempnew);
+                    }
+                }
+            }
+        }
+        return -1;   
+    }
+    
+    public boolean isSquare(int x)
+    {
+        return (double)(int)Math.sqrt(x) == Math.sqrt(x);
+    }
+}
+
 // DP
 class Solution {
     public int numSquares(int n) {

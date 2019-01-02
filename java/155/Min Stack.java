@@ -1,46 +1,38 @@
 class MinStack {
-    StackNode head;
-    StackNode top;
-    class StackNode{
-        int val;
-        StackNode next;
-        public StackNode(int v){val=v;}
-    }
+    Deque<Integer> stack;
+    Deque<Integer> ms;
     /** initialize your data structure here. */
     public MinStack() {
-        head=new StackNode(0);
-        top=head;
+        stack = new ArrayDeque<>();
+        ms = new ArrayDeque<>();
     }
     
     public void push(int x) {
-        StackNode p=new StackNode(x);
-        top.next=p;
-        top=top.next;
+        stack.push(x);
+        if(ms.size() == 0)
+        {
+           ms.push(x);
+        }
+        else
+        {
+            ms.push(Math.min(x, ms.peek()));
+        }
     }
     
     public void pop() {
-        StackNode p=head;
-        while(p.next!=top)
+        if(stack.size() > 0)
         {
-            p=p.next;
-        }
-        top=p;
-        top.next=null;
+            stack.pop();
+            ms.pop();
+        }  
     }
     
     public int top() {
-        return top.val;
+        return stack.peek();
     }
     
     public int getMin() {
-        int minnum=Integer.MAX_VALUE;
-        StackNode p=head;
-        while(p!=top)
-        {
-            p=p.next;
-            minnum=Math.min(minnum,p.val);
-        }
-        return minnum;
+        return ms.peek();
     }
 }
 
