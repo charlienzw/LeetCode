@@ -8,22 +8,20 @@
  */
 class Solution {
     public ListNode removeElements(ListNode head, int val) {
-        ListNode hp=new ListNode(0);
-        hp.next=head;
-        ListNode p=hp,q=head;
-        while(q!=null)
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode pre = dummy;
+        while(pre.next != null)
         {
-            if(q.val==val)
+            if(pre.next.val == val)
             {
-                q=q.next;
-                p.next=p.next.next;
+                pre.next = pre.next.next;
             }
             else
             {
-                p=p.next;
-                q=q.next;
+                pre = pre.next;
             }
         }
-        return hp.next;
+        return dummy.next;
     }
 }

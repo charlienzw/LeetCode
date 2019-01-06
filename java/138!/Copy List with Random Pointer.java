@@ -8,36 +8,35 @@
  */
 public class Solution {
     public RandomListNode copyRandomList(RandomListNode head) {
-        if(head==null) return null;
-        RandomListNode p=head;
+        if(head == null) return null;
+        
+        //Copy each node to its next
+        RandomListNode cur = head;
         RandomListNode temp; 
-        while(p!=null)
+        while(cur != null)
         {
-            temp=new RandomListNode(p.label);
-            temp.next=p.next;
-            p.next=temp;
-            p=temp.next;
+            temp = new RandomListNode(cur.label);
+            temp.next = cur.next;
+            cur.next = temp;
+            cur = temp.next;
         }
         
-        p=head;
-        while(p!=null)
+        //Modify random
+        cur = head;
+        while(cur != null)
         {
-            if(p.random==null) p.next.random=null;
-            else p.next.random=p.random.next;
-            p=p.next.next;
+            if(cur.random!=null) cur.next.random = cur.random.next;
+            cur = cur.next.next;
         }
         
-        RandomListNode res=head.next;
-        p=head;
-        while(p!=null)
+        //Recover the linked list and get the result
+        cur = head;
+        RandomListNode res = head.next;
+        while(cur.next!=null)
         {
-            if(p.next==null) p=p.next;
-            else
-            {
-                temp=p.next;
-                p.next=p.next.next;
-                p=temp;
-            }
+            temp = cur.next;
+            cur.next = cur.next.next;
+            cur = temp;
         }
         return res;
     }

@@ -8,43 +8,49 @@
  */
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode result=new ListNode(0);
-        ListNode r=result;
-        ListNode p=l1,q=l2;
-        ListNode s;
-        int x1,x2,tmp=0;
-        while(true)
+        ListNode dummy = new ListNode(0);
+        ListNode pre = dummy;
+        int sum, carry = 0;
+        ListNode cur1 = l1, cur2 = l2;
+        while(cur1 != null || cur2 != null)
         {
-            if(p==null&&q==null&&tmp==0)
-                break;
-            x1=0;
-            x2=0;
-            if(p!=null)
+            if(cur1 == null)
             {
-                x1=p.val;
-                p=p.next;
+                if(carry == 0)
+                {
+                    pre.next = cur2;
+                    break;
+                }
+                pre.next = new ListNode((cur2.val + carry) % 10);
+                carry = (cur2.val + carry) / 10;
+                pre = pre.next;
+                cur2 = cur2.next;
             }
-            if(q!=null)
+            else if(cur2 == null)
             {
-                x2=q.val;
-                q=q.next;
-            }
-            if(x1+x2+tmp>=10)
-            {
-                s=new ListNode((x1+x2+tmp)%10);
-                r.next=s;
-                r=s;
-                tmp=(x1+x2+tmp)/10;
+                if(carry == 0)
+                {
+                    pre.next = cur1;
+                    break;
+                }
+                pre.next = new ListNode((cur1.val + carry) % 10);
+                carry = (cur1.val + carry) / 10;
+                pre = pre.next;
+                cur1 = cur1.next;                
             }
             else
             {
-                s=new ListNode(x1+x2+tmp);
-                r.next=s;
-                r=s;
-                tmp=0;
+                pre.next = new ListNode((cur1.val + cur2.val + carry) % 10);
+                carry = (cur1.val + cur2.val + carry) / 10;
+                pre = pre.next;
+                cur1 = cur1.next;
+                cur2 = cur2.next;
             }
         }
-        result=result.next;
-        return result;
+        if(carry != 0)
+        {
+            pre.next = new ListNode(carry);
+        }
+        return dummy.next;
     }
 }

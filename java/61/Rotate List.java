@@ -8,30 +8,34 @@
  */
 class Solution {
     public ListNode rotateRight(ListNode head, int k) {
-        if(head==null) return null;
-        int cnt=1;
-        ListNode v=new ListNode(0);
-        v.next=head;
-        ListNode p=head;
-        int l=0;
-        while(p.next!=null)
+        if(head == null) return null;
+        int cnt = 1;
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        
+        //Length of linked list
+        ListNode cur = head;
+        int l = 0;
+        while(cur.next != null)
         {
-            p=p.next;
+            cur = cur.next;
             l++;
         }
         l++;
-        k=k%l;
-        if(k==0) return head;
-        ListNode end=p;
-        p=head;
-        while(cnt<l-k)
+        
+        
+        k = k % l;
+        if(k == 0) return head;
+        ListNode end = cur;
+        cur = head;
+        while(cnt < l-k)
         {
-            p=p.next;
+            cur=cur.next;
             cnt++;
         }
-        v.next=p.next;
-        end.next=head;
-        p.next=null;  
-        return v.next;
+        dummy.next = cur.next;
+        end.next = head;
+        cur.next = null;  
+        return dummy.next;
     }
 }

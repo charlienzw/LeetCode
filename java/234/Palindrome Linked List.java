@@ -8,45 +8,52 @@
  */
 class Solution {
     public boolean isPalindrome(ListNode head) {
-        if(head==null) return true;
-        if(head.next==null) return true;
-        if(head.next.next==null)
+        if(head == null || head.next == null) return true;
+        int cnt = 0;
+        ListNode cur = head;
+        while(cur != null)
         {
-            return head.val==head.next.val;
+            cur = cur.next;
+            cnt++;
         }
-        ListNode p=head,q,r;
-        int n=0;
-        while(p!=null)
+        
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast != null && fast.next != null)
         {
-            p=p.next;
-            n++;
+            fast = fast.next.next;
+            slow = slow.next;
         }
-        p=head;
-        int i=1;
-        q=p.next;
-        while(q!=null)
+        ListNode rightpre = cnt % 2 == 0 ? slow : slow.next;
+        ListNode rightreverse = reverse(rightpre);
+        rightpre.next = null;
+        
+        ListNode leftcur = head, rightcur = rightreverse;
+        while(rightcur != null)
         {
-            if(i>n/2)
+            if(leftcur.val != rightcur.val)
             {
-                r=q.next;
-                q.next=p;
-                p=q;
-                q=r;
+                return false;
             }
-            else
-            {
-                p=p.next;
-                q=p.next;
-            }
-            i++;  
-        }
-        q=head;
-        while(p!=q&&p.next!=q)
-        {
-            if(p.val!=q.val) return false;
-            p=p.next;
-            q=q.next;
+            leftcur = leftcur.next;
+            rightcur = rightcur.next;
         }
         return true;
+    }
+    
+    public ListNode reverse(ListNode head)
+    {
+        if(head == null || head.next == null) return head;
+        ListNode pre = head, cur = head.next;
+        ListNode next;
+        while(cur != null)
+        {
+            next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+        head.next = null;
+        return pre;
     }
 }

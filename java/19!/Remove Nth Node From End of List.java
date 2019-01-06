@@ -1,3 +1,11 @@
+/*
+Given linked list: 1->2->3->4->5, and n = 2.
+
+fast = 3
+
+slow = 3
+*/
+
 /**
  * Definition for singly-linked list.
  * public class ListNode {
@@ -8,27 +16,24 @@
  */
 class Solution {
     public ListNode removeNthFromEnd(ListNode head, int n) {
-        if (head==null) return null;
-        ListNode p=head;
-        ListNode q=null,r=null;
-        int i=0;
-        while(p!=null)
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        
+        ListNode fast = dummy;
+        for(int i = 0; i < n + 1; i++)
         {
-            if(i%n==0) 
-            {
-                r=q;
-                q=p;
-            }
-            p=p.next;
-            i++;
+            fast = fast.next;
         }
-        if(n==i) return head.next;
-        i--;
-        for(int j=0;j<i%n;j++)
+        
+        ListNode slow = dummy;
+        while(fast != null)
         {
-            r=r.next;
+            fast = fast.next;
+            slow = slow.next;
         }
-        r.next=r.next.next;
-        return head;
+        
+        slow.next = slow.next.next;
+        
+        return dummy.next;
     }
 }
