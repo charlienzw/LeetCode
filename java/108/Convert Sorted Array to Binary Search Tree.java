@@ -15,7 +15,7 @@ class Solution {
     
     public TreeNode helper(int[] nums, int low, int high)
     {
-        if(low <= high && low >=0 && high < nums.length)
+        if(low <= high)
         {
             int mid = low + (high - low) / 2;
             TreeNode res = new TreeNode(nums[mid]);

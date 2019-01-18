@@ -9,25 +9,23 @@
  * }
  */
 class Solution {
-    boolean b;
     public boolean isSymmetric(TreeNode root) {
-        TreeNode root1=root,root2=root;
-        b=true;
-        helper(root1,root2);
-        return b;
+        if(root == null) return true;
+        return helper(root.left, root.right);
     }
-    public void helper(TreeNode root1,TreeNode root2)
+    public boolean helper(TreeNode root1,TreeNode root2)
     {
-        if(root1==null&&root2!=null) b=false;
-        if(root1!=null&&root2==null) b=false;
-        if(root1!=null&&root2!=null)
+        if(root1 == null&&root2 != null) return false;
+        if(root1 != null&&root2 == null) return false;
+        if(root1 != null&&root2 != null)
         {
-            if(root1.val!=root2.val) b=false;
-            helper(root1.left,root2.right);
-            helper(root1.right,root2.left);
+            if(root1.val != root2.val) return false;
+            return helper(root1.left, root2.right) && helper(root1.right, root2.left);
         }    
+        return true;
     }
 }
+
 
 
 // iteratively

@@ -1,41 +1,27 @@
 class Solution {
     public List<List<Integer>> permute(int[] nums) {
-        List<List<Integer>> result=new ArrayList<List<Integer>>();
-        int[] A=new int[nums.length];
-        fun(nums,A,0,result);
-        return result;
+        List<List<Integer>> res = new ArrayList<>();
+        helper(nums, new ArrayList<>(), 0, res, new HashSet<>());
+        return res;
     }
     
-    public void fun(int[] nums,int[] A,int cur,List<List<Integer>> result)
+    public void helper(int[] nums, List<Integer> temp, int cur, List<List<Integer>> res, Set<Integer> set)
     {
-        if(cur==nums.length)
+        if(cur == nums.length)
         {
-            List<Integer> tmp=new ArrayList<Integer>();
-            for(int i=0;i<cur;i++)
-            {
-                tmp.add(A[i]);
-            }
-            result.add(tmp);
+            res.add(new ArrayList<>(temp));
+            return;
         }
-        else
+        for(int i = 0; i < nums.length; i++)
         {
-            for(int i=0;i<nums.length;i++)
+            if(!set.contains(nums[i]))
             {
-                int ok=1;
-                for(int j=0;j<cur;j++)
-                {
-                    if(nums[i]==A[j])
-                    {
-                        ok=0;
-                        break;
-                    }
-                }
-                if(ok==1)
-                {
-                    A[cur]=nums[i];
-                    fun(nums,A,cur+1,result);    
-                }
+                temp.add(nums[i]);
+                set.add(nums[i]);
+                helper(nums, temp, cur + 1, res, set);
+                set.remove(nums[i]);
+                temp.remove(temp.size() - 1);
             }
-        }      
+        }   
     }
 }
