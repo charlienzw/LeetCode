@@ -7,15 +7,22 @@ class Solution {
             map.put(nums[i], map.getOrDefault(nums[i], 0) + 1);
         }
         
-        PriorityQueue<Integer> pq = new PriorityQueue<>((n1, n2) -> map.get(n1) - map.get(n2));
-        for(int key : map.keySet())
+        List<Set<Integer>> fre = new ArrayList<>();
+        for(int i = 0; i < nums.length; i++)
         {
-            pq.add(key);
-            if(pq.size() > k) pq.poll();
+            fre.add(new HashSet<>());
         }
-        while(pq.size() > 0)
+        for(int i = 0; i < nums.length; i++)
         {
-            res.add(pq.poll());
+            fre.get(map.get(nums[i]) - 1).add(nums[i]);
+        }
+        for(int i = fre.size() - 1; i >= 0; i--)
+        {
+            for(int x : fre.get(i))
+            {
+                res.add(x);
+                if(res.size() == k) return res;
+            }
         }
         return res;
     }
