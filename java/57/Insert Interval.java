@@ -7,73 +7,95 @@
  *     Interval(int s, int e) { start = s; end = e; }
  * }
  */
+class TreeNode {
+    Interval interval;
+    TreeNode left;
+    TreeNode right;
+    TreeNode(Interval interval) {
+        this.interval = interval;
+    }
+}
+
+class BST {
+    TreeNode root;
+    
+    BST(List<Interval> sortedIntervals) {
+        root = createBSTHelper(sortedIntervals, 0, sortedIntervals.size() - 1);
+    }
+    
+    TreeNode createBSTHelper(List<Interval> sortedIntervals, int low, int high) {
+        if(low > high) {
+            return null;
+        }
+        int mid = low + (high - low) / 2;
+        TreeNode node = new TreeNode(sortedIntervals.get(mid));
+        node.left = createBSTHelper(sortedIntervals, low, mid - 1);
+        node.right = createBSTHelper(sortedIntervals, mid + 1, high);
+        return node;
+    }
+    
+    void insert(Interval interval) {
+        if(root == null) root = new TreeNode(interval);
+        TreeNode cur = root;
+        while(true) {
+            if(interval.start <= cur.interval.start) {
+                if(cur.left == null) {
+                    cur.left = new TreeNode(interval);
+                    return;
+                } else {
+                    cur = cur.left;
+                }
+            } else {
+                if(cur.right == null) {
+                    cur.right = new TreeNode(interval);
+                    return;
+                } else {
+                    cur = cur.right;
+                }
+            }
+        }
+    }
+    
+    List<Interval> inOrderTraversal() {
+        List<Interval> list = new ArrayList<>();
+        inOrderTraversalHelper(root, list);
+        return list;
+    }
+    
+    void inOrderTraversalHelper(TreeNode cur, List<Interval> list) {
+        if(cur != null) {
+            inOrderTraversalHelper(cur.left, list);
+            list.add(cur.interval);
+            inOrderTraversalHelper(cur.right, list);
+        }
+    }
+}
+
 class Solution {
     public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
-        if(intervals.size()==0)
-        {
-            intervals.add(newInterval);
-        }
-        else
-        {
-            int startnew=newInterval.start,endnew=newInterval.end,js=0;
-            List<Integer> removeindex=new ArrayList<Integer>();
-            int i=BinarySearch(intervals,newInterval.start);
-            if(i>=0)
-            {
-                if(newInterval.start<=intervals.get(i).end)
-                {
-                    startnew=intervals.get(i).start;
-                    js=i;
-                }
-                else
-                {
-                    js=i+1;
-                }
-            }
-            for (int j=js;j<=intervals.size()-1;j++)
-            {
-                if(newInterval.end>=intervals.get(j).start)
-                {
-                    removeindex.add(j);
-                    if(intervals.get(j).end>endnew)
-                    {
-                        endnew=intervals.get(j).end;
-                    }
-                }
-                else
-                {
-                    break;
-                }
-            }
-            for(int j=removeindex.size()-1;j>=0;j--)
-            {
-                int k=removeindex.get(j);
-                intervals.remove(k);
-            }
-            Interval resultInterval=new Interval(startnew,endnew);
-            intervals.add(js,resultInterval);
-        }
-        return intervals;
+        BST bst = new BST(intervals); // O(n)
+        bst.insert(newInterval); // O(logn)
+        List<Interval> sortedIntervals = bst.inOrderTraversal(); // O(n)
+        return mergeIntervals(sortedIntervals); // O(n)
     }
-    public int BinarySearch(List<Interval> intervals,int key)
-    {
-        int lo=0;
-        int hi=intervals.size()-1;
-        while(lo<=hi)
-        {
-            int mid=lo+(hi-lo)/2;
-            if(mid==intervals.size()-1)
-            {
-                if(key>=intervals.get(mid).start) return mid;
-                else hi=mid-1;
+    
+    public List<Interval> mergeIntervals(List<Interval> sortedIntervals) {
+        List<Interval> res = new ArrayList<>();
+        if(sortedIntervals.size() == 0) return res;
+        int start = sortedIntervals.get(0).start;
+        int end = sortedIntervals.get(0).end;
+        int i = 0;
+        while(i < sortedIntervals.size() - 1) {
+            if(end < sortedIntervals.get(i + 1).start) {
+                res.add(new Interval(start, end));
+                start = sortedIntervals.get(i + 1).start;
+                end = sortedIntervals.get(i + 1).end;
+            } else {
+                end = Math.max(end, sortedIntervals.get(i + 1).end);
             }
-            else
-            {
-                if(key>=intervals.get(mid+1).start) lo=mid+1;
-                else if(key<intervals.get(mid).start) hi=mid-1;
-                else return mid;
-            }
+            i++;
         }
-        return -1;
+        res.add(new Interval(start, Math.max(end, sortedIntervals.get(sortedIntervals.size() - 1).end)));
+        return res;
     }
 }
