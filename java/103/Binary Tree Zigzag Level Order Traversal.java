@@ -9,61 +9,17 @@
  */
 class Solution {
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-        List<List<Integer>> res=new ArrayList<>();
-        if (root==null) return res;
-        Stack<TreeNode> s1=new Stack<>();
-        s1.push(root);
-        List<Integer> tmp=new ArrayList<>();
-        tmp.add(root.val);
-        res.add(tmp);
-        Stack<TreeNode> s2=new Stack<>();
-        boolean dir=false;
-        TreeNode tempnode;
-        while(true)
-        {
-            if(!dir)
-            {
-                tmp=new ArrayList<>();
-                while(s1.size()>0)
-                {
-                    tempnode=s1.pop();
-                    if(tempnode.right!=null)
-                    {
-                        s2.push(tempnode.right);
-                        tmp.add(tempnode.right.val);
-                    }
-                    if(tempnode.left!=null)
-                    {
-                        s2.push(tempnode.left);
-                        tmp.add(tempnode.left.val);
-                    }
-                }
-                if(tmp.size()==0) break;
-                res.add(tmp);
-                dir=true;
-            }
-            else
-            {
-                tmp=new ArrayList<>();
-                while(s2.size()>0)
-                {
-                    tempnode=s2.pop();
-                    if(tempnode.left!=null)
-                    {
-                        s1.push(tempnode.left);
-                        tmp.add(tempnode.left.val);
-                    }
-                    if(tempnode.right!=null)
-                    {
-                        s1.push(tempnode.right);
-                        tmp.add(tempnode.right.val);    
-                    }
-                }
-                if(tmp.size()==0) break;
-                res.add(tmp);
-                dir=false;                
-            }
-        }
+        List<List<Integer>> res = new ArrayList<>();
+        helper(root, res, 0);
         return res;
+    }
+    void helper(TreeNode cur, List<List<Integer>> res, int level) {
+        if(cur == null) return;
+        if(res.size() <= level) res.add(new ArrayList<>());
+        List<Integer> temp = res.get(level);
+        if(level % 2 == 0) temp.add(cur.val);
+        else temp.add(0, cur.val);
+        helper(cur.left, res, level + 1);
+        helper(cur.right, res, level + 1);
     }
 }

@@ -8,18 +8,17 @@ public class Solution extends Reader4 {
      * @return    The number of characters read
      */
     public int read(char[] buf, int n) {
-        char[] temp=new char[4];
-        int index=0;
+        char[] temp = new char[4];
+        int index = 0;
         while(true)
         {
-            int count=read4(temp);
-            count=Math.min(count,n-index);
-            for(int i=0;i<count;i++)
+            int count = read4(temp);
+            count = Math.min(count, n - index);
+            for(int i = 0; i < count; i++)
             {
-                buf[index]=temp[i];
-                index++;
+                buf[index++] = temp[i];
             }
-            if(count<4) return index;
+            if(count < 4) return index;
         }
     }
 }

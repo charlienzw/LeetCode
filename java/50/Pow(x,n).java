@@ -2,36 +2,29 @@
 class Solution {
     public double myPow(double x, int n) {
         double res = 1;
-        double b = x; //base
-        int sign = 1; //1: positive 0: negative
-        double p = 1; // MIN_VALUE corner case
-        if(n == Integer.MIN_VALUE)
-        {
+        double base = x;
+        boolean isPositive = true;
+        double p = 1; // MIN_VALUE corner case\
+        
+        if(n == Integer.MIN_VALUE) {
             n = Integer.MAX_VALUE;
-            sign = 0;
+            isPositive = false;
             p = x;
         }
-        if(n < 0)
-        {
+        
+        if(n < 0) {
             n = -n;
-            sign = 0;
+            isPositive = false;
         }
         
-        while(n > 0)
-        {
-            if((n & 1) != 0)
-            {
-                res = res * b;
+        while(n > 0) {
+            if((n & 1) != 0) {
+                res = res * base; // Only multiply the bit = 1 result
             }
             n = n >> 1;
-            b = b * b;
+            base = base * base;
         }
         
-        if(sign == 1)
-            return res;
-        else
-        {
-            return 1 / (res * p);
-        }
+        return isPositive ? res : 1 / (res * p);
     }
 }
