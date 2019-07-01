@@ -30,7 +30,7 @@ class Solution {
         cur = head;
         while(cnt < l-k)
         {
-            cur=cur.next;
+            cur = cur.next;
             cnt++;
         }
         dummy.next = cur.next;

@@ -1,3 +1,10 @@
+/*
+    Input: 1->2->3->4->5->NULL, m = 2, n = 4
+    Output: 1->4->3->2->5->NULL
+    leftTail: 1
+    reversedTail: 2
+*/
+
 /**
  * Definition for singly-linked list.
  * public class ListNode {
@@ -8,41 +15,30 @@
  */
 class Solution {
     public ListNode reverseBetween(ListNode head, int m, int n) {
-        ListNode hp=new ListNode(0);
-        hp.next=head;
-        ListNode p=hp,q=head;
-        int i=1;
-        ListNode left=null,right=null;
-        ListNode tmp=null;;
-        while(true)
-        {
-            if(i==m) left=p;
-            if(i==n+1) 
-            {
-                right=p;
-                tmp=q;
-                break;
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode prev = dummy;
+        ListNode cur = head;
+        int index = 1;
+        ListNode leftTail = prev;
+        ListNode reversedTail = cur;
+        while (cur != null) {
+            ListNode next = cur.next;
+            if (index == m) {
+                leftTail = prev;
+                reversedTail = cur;
+            } else if (index > m && index < n) {
+                cur.next = prev;
+            } else if (index == n) {
+                cur.next = prev;
+                leftTail.next = cur;
+                reversedTail.next = next;
+                return dummy.next;
             }
-            if(i>m&&i<=n) 
-            {
-                tmp=q.next;
-                q.next=p;
-                p=q;
-                q=tmp;
-            }
-            else
-            {
-                p=p.next;
-                q=q.next;
-            }
-            i++;
+            prev = cur;
+            cur = next;
+            index++;
         }
-        if(left!=null&&right!=null)
-        {
-            ListNode l=left.next;
-            left.next=right;
-            l.next=tmp;
-        }
-        return hp.next;
+        return dummy.next;
     }
 }

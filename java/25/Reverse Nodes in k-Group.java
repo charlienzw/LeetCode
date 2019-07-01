@@ -1,6 +1,3 @@
-//Time:O(n)
-//Space:O(1)
-
 /**
  * Definition for singly-linked list.
  * public class ListNode {
@@ -11,40 +8,47 @@
  */
 class Solution {
     public ListNode reverseKGroup(ListNode head, int k) {
-        ListNode p=head;
-        int cnt=0;
-        while(p!=null)
-        {
-            p=p.next;
-            cnt++;
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode tail = dummy;
+        ListNode cur = head;
+        ListNode pre = null;
+        while (true) {
+            pre = cur;
+            for (int i = 0; i < k; i++) {
+                if (cur == null) return dummy.next;
+                cur = cur.next;
+            }
+            tail.next = reverseBetween(pre, 1, k);
+            tail = pre;
         }
-        ListNode hp=new ListNode(0);
-        hp.next=head;
-        ListNode hpp=hp;
-        ListNode end=hp.next;
-        int d=cnt/k;
-        for(int i=0;i<d;i++)
-        {
-            hpp.next=reverselist(end,k);
-            hpp=end;
-            end=hpp.next;
-        }
-        return hp.next;
     }
     
-    public ListNode reverselist(ListNode head,int n)
-    {
-        ListNode pre=null,cur=head,r;
-        int i=0;
-        while(i<n)
-        {
-            r=cur.next;
-            cur.next=pre;
-            pre=cur;
-            cur=r;
-            i++;
+    private ListNode reverseBetween(ListNode head, int m, int n) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode prev = dummy;
+        ListNode cur = head;
+        int index = 1;
+        ListNode leftTail = prev;
+        ListNode reversedTail = cur;
+        while (cur != null) {
+            ListNode next = cur.next;
+            if (index == m) {
+                leftTail = prev;
+                reversedTail = cur;
+            } else if (index > m && index < n) {
+                cur.next = prev;
+            } else if (index == n) {
+                cur.next = prev;
+                leftTail.next = cur;
+                reversedTail.next = next;
+                return dummy.next;
+            }
+            prev = cur;
+            cur = next;
+            index++;
         }
-        head.next=cur;
-        return pre;
+        return dummy.next;
     }
 }
