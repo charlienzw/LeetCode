@@ -1,3 +1,10 @@
+/*
+    Preorder Traversal
+        if one node has two children
+            update the result with left child height plus right child height
+            set the node's height to the maximun of left and right child height plus one
+/*
+
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -7,24 +14,18 @@
  *     TreeNode(int x) { val = x; }
  * }
  */
-
-//time: O(n) each node one operation
-//space: O(n) if one line tree, then n stack
 class Solution {
-    int maxlength=0;
+    int res = 0;
     public int diameterOfBinaryTree(TreeNode root) {
         helper(root);
-        return maxlength;
+        return res;
     }
-    public int helper(TreeNode root)
-    {
-        if(root==null)
-        {
-            return 0;
-        }
-        int left=helper(root.left);
-        int right=helper(root.right);
-        maxlength=Math.max(maxlength,left+right);
-        return Math.max(left,right)+1;
+    
+    private int helper(TreeNode root) {
+        if (root == null) return 0;
+        int leftHeight = helper(root.left);
+        int rightHeight = helper(root.right);
+        res = Math.max(res, leftHeight + rightHeight);
+        return Math.max(leftHeight, rightHeight) + 1;
     }
-} 
+}
