@@ -13,8 +13,7 @@ class BSTIterator {
     public BSTIterator(TreeNode root) {
         s = new ArrayDeque<>();
         cur = root;
-        while(cur != null)
-        {
+        while(cur != null) {
             s.push(cur);
             cur = cur.left;
         }
@@ -24,13 +23,11 @@ class BSTIterator {
     /** @return the next smallest number */
     public int next() {
         int res = 0;
-        if(cur == null)
-        {
+        if(cur == null) {
             cur = s.pop();
             res = cur.val;
             cur = cur.right;
-            while(cur != null)
-            {
+            while(cur != null) {
                 s.push(cur);
                 cur = cur.left;
             }

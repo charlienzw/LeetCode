@@ -8,38 +8,25 @@
  * }
  */
 class Solution {
+    int postIndex;
     public TreeNode buildTree(int[] inorder, int[] postorder) {
-        if(postorder.length==0||inorder.length==0) return null;
-        TreeNode root=new TreeNode(postorder[postorder.length-1]);
-        TreeNode p=root;
-        TreeNode pp=p;
-        Stack<TreeNode> s=new Stack<>();
-        HashMap<Integer,Integer> map=new HashMap<>();
-        s.push(root);
-        for(int i=0;i<inorder.length;i++)
-        {
-            map.put(inorder[i],inorder.length-1-i);
+        if (postorder.length == 0) return null;
+        Map<Integer, Integer> val2InIndex = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++) {
+            val2InIndex.put(inorder[i], i);
         }
-        for(int i=postorder.length-2;i>=0;i--)
-        {
-            if(map.get(postorder[i])<map.get(p.val))
-            {
-                p.right=new TreeNode(postorder[i]);
-                p=p.right;
-                s.push(p);
-            }
-            else
-            {
-                while(s.size()>0&&map.get(postorder[i])>map.get(s.peek().val))
-                {
-                    pp=p;
-                    p=s.pop();
-                }
-                p.left=new TreeNode(postorder[i]);
-                p=p.left;
-                s.push(p);
-            }
-        }
-        return root;
+        postIndex = postorder.length - 1;
+        return helper(postorder, val2InIndex, 0, inorder.length - 1);
+    }
+    
+    private TreeNode helper(int[] postorder, Map<Integer, Integer> val2InIndex, int beginInIndex, int endInIndex) {
+        if (beginInIndex > endInIndex) return null;
+        int val = postorder[postIndex--];
+        TreeNode cur = new TreeNode(val);
+        if (beginInIndex == endInIndex) return cur;
+        int inIndex = val2InIndex.get(val);
+        cur.right = helper(postorder, val2InIndex, inIndex + 1, endInIndex);
+        cur.left = helper(postorder, val2InIndex, beginInIndex, inIndex - 1);
+        return cur;
     }
 }

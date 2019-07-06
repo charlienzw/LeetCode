@@ -1,3 +1,15 @@
+/*
+    Recursive Function design
+        if beginInIndex > endInIndex
+            The node should not be here. Return null.
+        if beginInIndex == endInIndex
+            The node is here. Don't need recursion again.
+        if beginInIndex > endInIndex
+            There should be more nodes in this branch.
+    Time: O(n)
+    Space: O(n)
+*/
+
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -8,38 +20,24 @@
  * }
  */
 class Solution {
+    int preIndex = 0;
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        if(preorder.length==0||inorder.length==0) return null;
-        TreeNode root=new TreeNode(preorder[0]);
-        TreeNode p=root;
-        TreeNode pp=p;
-        Stack<TreeNode> s=new Stack<>();
-        HashMap<Integer,Integer> map=new HashMap<>();
-        s.push(root);
-        for(int i=0;i<inorder.length;i++)
-        {
-            map.put(inorder[i],i);
+        if (preorder.length == 0) return null;
+        Map<Integer, Integer> val2InIndex = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++) {
+            val2InIndex.put(inorder[i], i);
         }
-        for(int i=1;i<preorder.length;i++)
-        {
-            if(map.get(preorder[i])<map.get(p.val))
-            {
-                p.left=new TreeNode(preorder[i]);
-                p=p.left;
-                s.push(p);
-            }
-            else
-            {
-                while(s.size()>0&&map.get(preorder[i])>map.get(s.peek().val))
-                {
-                    pp=p;
-                    p=s.pop();
-                }
-                p.right=new TreeNode(preorder[i]);
-                p=p.right;
-                s.push(p);
-            }
-        }
-        return root;
+        return helper(preorder, val2InIndex, 0, inorder.length - 1);
+    }
+    
+    private TreeNode helper(int[] preorder, Map<Integer, Integer> val2InIndex, int beginInIndex, int endInIndex) {
+        if (beginInIndex > endInIndex) return null;
+        int val = preorder[preIndex++];
+        TreeNode cur = new TreeNode(val);
+        if (beginInIndex == endInIndex) return cur;
+        int inIndex = val2InIndex.get(val);
+        cur.left = helper(preorder, val2InIndex, beginInIndex, inIndex - 1);
+        cur.right = helper(preorder, val2InIndex, inIndex + 1, endInIndex);
+        return cur;
     }
 }
