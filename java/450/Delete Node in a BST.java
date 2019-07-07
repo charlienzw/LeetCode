@@ -12,54 +12,45 @@ class Solution {
         TreeNode cur = root;
         TreeNode pre = null;
         boolean isleft = false;
-        while(cur != null)
-        {
-            if(cur.val == key)
-            {
+        while (cur != null) {
+            if(cur.val == key) {
                 break;
             }
-            else if(key > cur.val)
-            {
+            else if(key > cur.val) {
                 pre = cur;
                 isleft = false;
                 cur = cur.right;
             }
-            else
-            {
+            else {
                 pre = cur;
                 isleft = true;
                 cur = cur.left;
             }
         }
-        if(cur == null) return root;
+        if (cur == null) return root;
         
-        
-        if(cur.left == null && cur.right == null)
-        {
-            if(pre == null) return null;
-            if(isleft) pre.left = null;
+        if (cur.left == null && cur.right == null) {
+            if (pre == null) return null;
+            if (isleft) pre.left = null;
             else pre.right = null;
             return root;
         }
         
-        if(cur.left == null && cur.right != null)
-        {
+        if(cur.left == null && cur.right != null) {
             if(pre == null) return cur.right;
             if(isleft) pre.left = cur.right;
             else pre.right = cur.right;
             return root;
         }
         
-        if(cur.left != null && cur.right == null)
-        {
+        if(cur.left != null && cur.right == null) {
             if(pre == null) return cur.left;
             if(isleft) pre.left = cur.left;
             else pre.right = cur.left;
             return root;
         }
         
-        if(cur.left != null && cur.right != null)
-        {
+        if(cur.left != null && cur.right != null) {
             TreeNode rightcur = cur.right;
             TreeNode rightpre = cur;
             while(rightcur.left != null)
@@ -76,12 +67,10 @@ class Solution {
             else rightpre.left = temp;
 
             if(pre == null) return rightcur;
-            if(isleft) 
-            {
+            if(isleft) {
                 pre.left = rightcur;
             }
-            else 
-            {
+            else {
                 pre.right = rightcur;
             }
             return root;

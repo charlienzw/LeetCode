@@ -17,8 +17,7 @@ class Solution {
     
     public void helper(TreeNode root, List<Integer> res)
     {
-        if(root != null)
-        {
+        if (root != null) {
             helper(root.left, res);
             helper(root.right, res);
             res.add(root.val);
@@ -40,15 +39,11 @@ class Solution {
     public List<Integer> postorderTraversal(TreeNode root) {
         LinkedList<Integer> res = new LinkedList<Integer>();
         Stack<TreeNode> s = new Stack<>();
-        while(s.size() > 0 || root != null)
-        {
-            if(root == null)
-            {
+        while (s.size() > 0 || root != null) {
+            if (root == null) {
                 root = s.pop();
                 root = root.left;
-            }
-            else
-            {
+            } else {
                 res.addFirst(root.val);
                 s.push(root);
                 root = root.right;

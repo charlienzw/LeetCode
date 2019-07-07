@@ -23,14 +23,11 @@ class Solution {
         prenode = null;
         helper(root);
         int temp;
-        if(node3 == null)
-        {
+        if(node3 == null) {
             temp = node1.val;
             node1.val = node2.val;
             node2.val = temp;
-        }
-        else
-        {
+        } else {
             temp = node1.val;
             node1.val = node3.val;
             node3.val = temp;
@@ -38,27 +35,19 @@ class Solution {
     }
     public void helper(TreeNode root)
     {
-        if(root != null)
-        {
+        if(root != null) {
             helper(root.left);
-            if(prenode != null)
-            {
-                if(prenode.val >= root.val)
-                {
-                    if(node1 != null)
-                    {
+            if(prenode != null) {
+                if(prenode.val >= root.val) {
+                    if(node1 != null) {
                         node3 = root;
-                    }
-                    else
-                    {
+                    } else {
                         node1 = prenode;
                         node2 = root;
                     }
                 }
                 prenode = root;
-            }
-            else
-            {
+            } else {
                 prenode = root;
             }
             helper(root.right);

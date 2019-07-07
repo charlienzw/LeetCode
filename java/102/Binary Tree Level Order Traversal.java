@@ -15,21 +15,18 @@ class Solution {
         q.offer(root);
         TreeNode tmp;
         int qs;
-        while(true)
-        {
+        while (true) {
             qs = q.size();
             resi = new ArrayList<>();
-            for(int i = 0; i < qs; i++)
-            {
+            for (int i = 0; i < qs; i++) {
                 tmp = q.poll();
-                if(tmp != null)
-                {
+                if (tmp != null) {
                     resi.add(tmp.val);
                     q.offer(tmp.left);
                     q.offer(tmp.right);
                 }
             }
-            if(q.size() == 0) break;
+            if (q.size() == 0) break;
             res.add(resi);
         }
         return res;

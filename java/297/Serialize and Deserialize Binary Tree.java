@@ -19,12 +19,10 @@ public class Codec {
     }
     public void helper(TreeNode root, StringBuilder sb)
     {
-        if(root == null)
-        {
+        if(root == null) {
             sb.append("#,");
         }
-        else
-        {
+        else {
             sb.append(root.val + ",");
             helper(root.left, sb);
             helper(root.right, sb);
@@ -33,19 +31,16 @@ public class Codec {
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
-        if(data.length()==0) return null;
-        String[] dataArray=data.split(",");
+        if(data.length() == 0) return null;
+        String[] dataArray = data.split(",");
         return dehelper(dataArray, new int[]{0});
     }
     public TreeNode dehelper(String[] dataArray, int[] cur)
     {
-        if(dataArray[cur[0]].equals("#"))
-        {
+        if (dataArray[cur[0]].equals("#")) {
             cur[0]++;
             return null;
-        }
-        else
-        {
+        } else {
             TreeNode root = new TreeNode(Integer.valueOf(dataArray[cur[0]]));
             cur[0]++;
             root.left = dehelper(dataArray, cur);
@@ -84,12 +79,9 @@ public class Codec {
     }
     public void helper(TreeNode root, StringBuilder sb)
     {
-        if(root==null)
-        {
+        if(root == null) {
             sb.append("null,");
-        }
-        else
-        {
+        } else {
             helper(root.left, sb);
             helper(root.right, sb);
             sb.append(root.val + ",");
@@ -98,19 +90,16 @@ public class Codec {
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
-        if(data.length()==0) return null;
-        String[] dataArray=data.split(",");
+        if(data.length() == 0) return null;
+        String[] dataArray = data.split(",");
         return dehelper(dataArray, new int[]{dataArray.length - 1});
     }
     public TreeNode dehelper(String[] dataArray, int[] cur)
     {
-        if(dataArray[cur[0]].equals("null"))
-        {
+        if(dataArray[cur[0]].equals("null")) {
             cur[0]--;
             return null;
-        }
-        else
-        {
+        } else {
             TreeNode root = new TreeNode(Integer.valueOf(dataArray[cur[0]]));
             cur[0]--;
             root.right = dehelper(dataArray, cur);
@@ -183,17 +172,14 @@ public class Codec {
         processed.offer(q.poll());
         TreeNode root = processed.peek();
         if(root == null) return null;
-        while(!processed.isEmpty())
-        {
+        while(!processed.isEmpty()) {
             TreeNode parent = processed.poll();
             TreeNode left = q.poll();
             TreeNode right = q.poll();
-            if(left != null)
-            {
+            if(left != null) {
                 processed.offer(left);
             }
-            if(right != null)
-            {
+            if(right != null) {
                 processed.offer(right);
             }
             parent.left = left;

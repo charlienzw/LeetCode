@@ -8,26 +8,32 @@
  * }
  */
 class Solution {
-    List<List<Integer>> res;
     public List<List<Integer>> pathSum(TreeNode root, int sum) {
-        res=new ArrayList<>();
-        if(root==null) return res;
-        helper(root,0,new ArrayList<>(),sum);
+        List<List<Integer>> res = new ArrayList<>();
+        if (root == null) return res;
+        List<Integer> path = new ArrayList<>();
+        path.add(root.val);
+        helper(root, sum, res, root.val, path);
         return res;
     }
-    public void helper(TreeNode root,int s,List<Integer> l,int sum)
-    {
-        s=s+root.val;
-        l.add(root.val);
-        if(root.left!=null)
-            helper(root.left,s,l,sum);
-        if(root.right!=null)
-            helper(root.right,s,l,sum);
-        if(root.left==null&&root.right==null)
-        {
-            if(s==sum)
-                res.add(new ArrayList<>(l));
+    
+    private void helper(TreeNode root, int sum, List<List<Integer>> res, int curSum, List<Integer> path) {
+        if (root.left == null && root.right == null) {
+            if (curSum == sum) {
+                res.add(new ArrayList<>(path));
+                return;
+            }
         }
-        l.remove(l.size()-1);
+        if (root.left != null) {
+            path.add(root.left.val);
+            helper(root.left, sum, res, curSum + root.left.val, path);
+            path.remove(path.size() - 1);
+        }
+        if (root.right != null) {
+            path.add(root.right.val);
+            helper(root.right, sum, res, curSum + root.right.val, path);
+            path.remove(path.size() - 1);
+        }
+        
     }
 }
