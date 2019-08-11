@@ -1,15 +1,25 @@
+// O(n) time and space
+// Count Sort
 class Solution {
     public int[] relativeSortArray(int[] arr1, int[] arr2) {
-        Map<Integer, Integer> arr2Map = new HashMap<>();
-        for (int i = 0; i < arr2.length; i++) {
-            arr2Map.put(arr2[i], i);
-        }
-        Integer[] res = new Integer[arr1.length];
-        for (int i = 0; i < res.length; i++) res[i] = new Integer(arr1[i]);
-        Arrays.sort(res, (a, b) -> ((!arr2Map.containsKey(a) && !arr2Map.containsKey(b)) ? (a - b) : (arr2Map.getOrDefault(a, arr2.length) - arr2Map.getOrDefault(b, arr2.length))));
+        int[] cntArr1 = new int[1001];
         for (int i = 0; i < arr1.length; i++) {
-            arr1[i] = res[i];
+            cntArr1[arr1[i]]++;
         }
-        return arr1;
+        int[] res = new int[arr1.length];
+        int index = 0;
+        for (int i = 0; i < arr2.length; i++) {
+            while (cntArr1[arr2[i]] > 0) {
+                res[index++] = arr2[i];
+                cntArr1[arr2[i]]--;
+            }
+        }
+        for (int i = 0; i < 1001; i++) {
+            while (cntArr1[i] > 0) {
+                res[index++] = i;
+                cntArr1[i]--;
+            }
+        }
+        return res;
     }
 }
