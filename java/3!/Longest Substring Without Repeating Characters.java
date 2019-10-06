@@ -1,24 +1,18 @@
-// Two pointer
+// Sliding Window
 // Time: O(n) Space: O(n)
 class Solution {
     public int lengthOfLongestSubstring(String s) {
-        HashSet<Character> set=new HashSet<>();
-        int res=0;
-        int i=0,j=0;
-        while(i<s.length()&&j<s.length())
-        {
-            if(!set.contains((s.charAt(i))))
-            {
-                set.add(s.charAt(i));
-                res=Math.max(res,set.size());
-                i++;
-            }
-            else
-            {
-                set.remove(s.charAt(j));
-                j++;
+        int maxLen = 0;
+        Set<Character> set = new HashSet<>();
+        int slow = 0, fast = 0;
+        while (slow < s.length() && fast < s.length()) {
+            if (set.contains(s.charAt(fast))) {
+                set.remove(s.charAt(slow++));
+            } else {
+                set.add(s.charAt(fast++));
+                maxLen = Math.max(maxLen, fast - slow);
             }
         }
-        return res;
+        return maxLen;
     }
 }
