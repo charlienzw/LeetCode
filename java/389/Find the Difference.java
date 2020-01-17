@@ -16,33 +16,16 @@ class Solution {
 //Hashing
 class Solution {
     public char findTheDifference(String s, String t) {
-        HashSet<Character> hs=new HashSet<>();
-        for(int i=0;i<s.length();i++) hs.add(s.charAt(i));
-        Iterator<Character> iter=hs.iterator();
-        HashMap<Character,Integer> hm=new HashMap<>();
-        while(iter.hasNext())
-        {
-            char tmp=iter.next();
-            int cnt=0;
-            for(int i=0;i<s.length();i++)
-            {
-                if(s.charAt(i)==tmp) cnt++; 
-            }
-            hm.put(tmp,cnt);
+        int[] map = new int[26];
+        for (int i = 0; i < s.length(); i++) {
+            map[s.charAt(i) - 'a']++;
         }
-        for(int i=0;i<t.length();i++)
-        {
-            if(hm.containsKey(t.charAt(i)))
-            {
-                if(hm.get(t.charAt(i))>1)
-                    hm.put(t.charAt(i),hm.get(t.charAt(i))-1);
-                else
-                {
-                    hm.remove(t.charAt(i));
-                }
-            }
-            else return t.charAt(i);
+        for (int i = 0; i < t.length(); i++) {
+            map[t.charAt(i) - 'a']--;
         }
-        return t.charAt(0);
+        for (int i = 0; i < 26; i++) {
+            if (map[i] < 0) return (char)('a' + i);
+        }
+        return 'a';
     }
 }
